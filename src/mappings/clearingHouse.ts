@@ -36,7 +36,7 @@ export function handlePositionChanged(event: PositionChanged): void {
   position.tradingVolume = position.tradingVolume.plus(event.params.positionNotional)
   position.leverage = newMargin.isZero()? BigInt.fromI32(0) : decimal.div(newOpenNotional, newMargin)
   position.realizedPnl = position.realizedPnl.plus(event.params.realizedPnl) // delta
-  position.unrealizedPnl = event.params.unrealizedPnlAfter
+  position.unrealizedPnl = position.unrealizedPnl.minus(ammPosition.unrealizedPnl).plus(event.params.unrealizedPnlAfter) // snapshot
   position.fundingPayment = position.fundingPayment.plus(event.params.fundingPayment)
   position.fee = position.fee.plus(event.params.fee)
   position.badDebt = position.badDebt.plus(event.params.badDebt)
