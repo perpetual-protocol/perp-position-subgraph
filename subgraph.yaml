@@ -137,3 +137,24 @@ dataSources:
       eventHandlers:
         - event: FundingRateUpdated(int256,uint256)
           handler: handleFundingRateUpdated
+
+  - kind: ethereum/contract
+    name: AmmAAVEUSDC
+    network: xdai
+    source:
+      address: "0x16A7ECF2c27Cb367Df36d39e389e66B42000E0dF"
+      abi: Amm
+      startBlock: 14620309
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./src/mappings/amm.ts
+      entities:
+        - FundingRateUpdatedEvent
+      abis:
+        - name: Amm
+          file: ./abis/Amm.json
+      eventHandlers:
+        - event: FundingRateUpdated(int256,uint256)
+          handler: handleFundingRateUpdated
