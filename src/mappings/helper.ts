@@ -1,6 +1,8 @@
-import { AmmPosition, Position } from "../../generated/schema"
+import { AmmPosition, Position, Amm } from "../../generated/schema"
 import { BigInt, Address } from "@graphprotocol/graph-ts"
 import { PositionChanged } from "../../generated/ClearingHouse/ClearingHouse"
+
+export const BI_ZERO = BigInt.fromI32(0)
 
 export function getPosition(trader: Address): Position {
   let position = Position.load(parsePositionId(trader))
@@ -90,4 +92,32 @@ export namespace decimal {
   export function div(a: BigInt, b: BigInt): BigInt {
     return a.times(BigInt.fromI32(10).pow(18)).div(b)
   }
+}
+
+
+export function getAmm(ammAddress: Address): Amm {
+  let amm = Amm.load(parseAmmId(ammAddress))
+  if (!amm) {
+    amm = createAmm(ammAddress)
+  }
+  return amm!
+}
+
+export function createAmm(ammAddress: Address): Amm {
+  const amm = new Amm(parseAmmId(ammAddress))
+  amm.address = ammAddress
+  amm.positionBalance = BigInt.fromI32(0)
+  amm.openInterestSize = BigInt.fromI32(0)
+  amm.openInterestNotional = BigInt.fromI32(0)
+  amm.tradingVolume = BigInt.fromI32(0)
+  amm.quoteAssetReserve = BigInt.fromI32(0)
+  amm.baseAssetReserve = BigInt.fromI32(0)
+  amm.blockNumber = BigInt.fromI32(0)
+  amm.timestamp = BigInt.fromI32(0)
+  amm.save()
+  return amm
+}
+
+export function parseAmmId(ammAddress: Address): string {
+  return ammAddress.toHexString()
 }

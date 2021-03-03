@@ -39,6 +39,19 @@ type AmmPosition @entity {
   timestamp: BigInt # last updated timestamp
 }
 
+type Amm @entity {
+  id: ID!
+  address: Bytes! # address
+  positionBalance: BigInt! # int256
+  openInterestSize: BigInt! # uint256
+  openInterestNotional: BigInt! # uint256
+  tradingVolume: BigInt! # trading volume in notional value
+  quoteAssetReserve: BigInt! # uint256
+  baseAssetReserve: BigInt! # uint256
+  blockNumber: BigInt # last updated block number
+  timestamp: BigInt # last updated timestamp
+}
+
 type PositionChangedEvent @entity {
   id: ID!
   trader: Bytes! # address

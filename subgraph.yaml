@@ -53,6 +53,8 @@ dataSources:
       eventHandlers:
         - event: FundingRateUpdated(int256,uint256)
           handler: handleFundingRateUpdated
+        - event: ReserveSnapshotted(uint256,uint256,uint256)
+          handler: handleReserveSnapshotted
 
   - kind: ethereum/contract
     name: AmmETHUSDC
@@ -74,6 +76,8 @@ dataSources:
       eventHandlers:
         - event: FundingRateUpdated(int256,uint256)
           handler: handleFundingRateUpdated
+        - event: ReserveSnapshotted(uint256,uint256,uint256)
+          handler: handleReserveSnapshotted
 
   - kind: ethereum/contract
     name: AmmDOTUSDC
@@ -95,6 +99,8 @@ dataSources:
       eventHandlers:
         - event: FundingRateUpdated(int256,uint256)
           handler: handleFundingRateUpdated
+        - event: ReserveSnapshotted(uint256,uint256,uint256)
+          handler: handleReserveSnapshotted
 
   - kind: ethereum/contract
     name: AmmYFIUSDC
@@ -116,6 +122,8 @@ dataSources:
       eventHandlers:
         - event: FundingRateUpdated(int256,uint256)
           handler: handleFundingRateUpdated
+        - event: ReserveSnapshotted(uint256,uint256,uint256)
+          handler: handleReserveSnapshotted
 
   - kind: ethereum/contract
     name: AmmSNXUSDC
@@ -137,6 +145,8 @@ dataSources:
       eventHandlers:
         - event: FundingRateUpdated(int256,uint256)
           handler: handleFundingRateUpdated
+        - event: ReserveSnapshotted(uint256,uint256,uint256)
+          handler: handleReserveSnapshotted
 
   - kind: ethereum/contract
     name: AmmAAVEUSDC
@@ -158,6 +168,8 @@ dataSources:
       eventHandlers:
         - event: FundingRateUpdated(int256,uint256)
           handler: handleFundingRateUpdated
+        - event: ReserveSnapshotted(uint256,uint256,uint256)
+          handler: handleReserveSnapshotted
 
   - kind: ethereum/contract
     name: AmmLINKUSDC
@@ -179,3 +191,5 @@ dataSources:
       eventHandlers:
         - event: FundingRateUpdated(int256,uint256)
           handler: handleFundingRateUpdated
+        - event: ReserveSnapshotted(uint256,uint256,uint256)
+          handler: handleReserveSnapshotted
