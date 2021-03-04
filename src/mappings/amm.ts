@@ -20,12 +20,13 @@ export function handleFundingRateUpdated(event: FundingRateUpdated): void {
 }
 
 export function handleReserveSnapshotted(event: ReserveSnapshotted): void {
-  const amm = getAmm(event.address)
-  const { params: { baseAssetReserve, quoteAssetReserve, timestamp }, block: { number: blockNumber }} = event
+  let amm = getAmm(event.address)
+  let baseAssetReserve = event.params.baseAssetReserve
+  let quoteAssetReserve = event.params.quoteAssetReserve
   amm.baseAssetReserve = baseAssetReserve
   amm.quoteAssetReserve = quoteAssetReserve
   amm.openInterestNotional = amm.openInterestSize.times(quoteAssetReserve.div(baseAssetReserve))
-  amm.blockNumber = blockNumber
-  amm.timestamp = timestamp
+  amm.blockNumber = event.block.number
+  amm.timestamp = event.block.timestamp
   amm.save()
 }

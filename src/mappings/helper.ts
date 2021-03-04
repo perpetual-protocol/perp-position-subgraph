@@ -2,7 +2,7 @@ import { AmmPosition, Position, Amm } from "../../generated/schema"
 import { BigInt, Address } from "@graphprotocol/graph-ts"
 import { PositionChanged } from "../../generated/ClearingHouse/ClearingHouse"
 
-export const BI_ZERO = BigInt.fromI32(0)
+export let BI_ZERO = BigInt.fromI32(0)
 
 export function getPosition(trader: Address): Position {
   let position = Position.load(parsePositionId(trader))
@@ -104,7 +104,7 @@ export function getAmm(ammAddress: Address): Amm {
 }
 
 export function createAmm(ammAddress: Address): Amm {
-  const amm = new Amm(parseAmmId(ammAddress))
+  let amm = new Amm(parseAmmId(ammAddress))
   amm.address = ammAddress
   amm.positionBalance = BI_ZERO
   amm.openInterestSize = BI_ZERO
