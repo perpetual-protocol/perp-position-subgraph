@@ -14,6 +14,8 @@ import {
   getPosition, parsePositionId, createPosition,
   getAmmPosition, parseAmmPositionId, createAmmPosition,
   calcNewAmmOpenNotional, decimal,
+  getAmm,
+  BI_ZERO,
 } from "./helper"
 import { BigInt } from "@graphprotocol/graph-ts"
 
@@ -23,12 +25,16 @@ export function handlePositionChanged(event: PositionChanged): void {
   // fetch Position & AmmPosition
   let position = getPosition(event.params.trader)
   let ammPosition = getAmmPosition(event.params.amm, event.params.trader)
+  let amm = getAmm(event.params.amm)
 
   let newAmmMargin = event.params.margin
   let newMargin = position.margin.minus(ammPosition.margin).plus(event.params.margin)
   let newAmmOpenNotional = calcNewAmmOpenNotional(ammPosition, event)
   let newOpenNotional = position.openNotional.minus(ammPosition.openNotional).plus(newAmmOpenNotional)
   let newAmmPositionSize = event.params.positionSizeAfter
+  let newAmmOpenInterestSize = amm.openInterestSize.minus(ammPosition.positionSize.abs()).plus(event.params.positionSizeAfter.abs())
+  let ammSpotPrice = amm.baseAssetReserve.notEqual(BI_ZERO) ? amm.quoteAssetReserve.div(amm.baseAssetReserve) : BI_ZERO
+  let newAmmOpenInterestNotional = newAmmOpenInterestSize.times(ammSpotPrice)
 
   // upsert corresponding Position
   position.margin = newMargin // snapshot
@@ -92,10 +98,21 @@ export function handlePositionChanged(event: PositionChanged): void {
   positionChanged.blockNumber = event.block.number
   positionChanged.timestamp = event.block.timestamp
 
+  //
+  // upsert Amm
+  //
+  amm.openInterestSize = newAmmOpenInterestSize
+  amm.positionBalance = amm.positionBalance.plus(event.params.exchangedPositionSize)
+  amm.tradingVolume = amm.tradingVolume.plus(event.params.positionNotional)
+  amm.openInterestNotional = newAmmOpenInterestNotional
+  amm.blockNumber = event.block.number
+  amm.timestamp = event.block.timestamp
+
   // commit changes
   position.save()
   ammPosition.save()
   positionChanged.save()
+  amm.save()
 }
 
 /* Trader position liquidated

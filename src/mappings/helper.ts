@@ -1,6 +1,8 @@
-import { AmmPosition, Position } from "../../generated/schema"
+import { AmmPosition, Position, Amm } from "../../generated/schema"
 import { BigInt, Address } from "@graphprotocol/graph-ts"
 import { PositionChanged } from "../../generated/ClearingHouse/ClearingHouse"
+
+export const BI_ZERO = BigInt.fromI32(0)
 
 export function getPosition(trader: Address): Position {
   let position = Position.load(parsePositionId(trader))
@@ -13,19 +15,19 @@ export function getPosition(trader: Address): Position {
 export function createPosition(trader: Address): Position {
   let position = new Position(parsePositionId(trader))
   position.trader = trader
-  position.margin = BigInt.fromI32(0)
-  position.openNotional = BigInt.fromI32(0)
-  position.tradingVolume = BigInt.fromI32(0)
-  position.leverage = BigInt.fromI32(0)
-  position.realizedPnl = BigInt.fromI32(0)
-  position.unrealizedPnl = BigInt.fromI32(0)
-  position.fundingPayment = BigInt.fromI32(0)
-  position.fee = BigInt.fromI32(0)
-  position.badDebt = BigInt.fromI32(0)
-  position.liquidationPenalty = BigInt.fromI32(0)
-  position.totalPnlAmount = BigInt.fromI32(0)
-  position.blockNumber = BigInt.fromI32(0)
-  position.timestamp = BigInt.fromI32(0)
+  position.margin = BI_ZERO
+  position.openNotional = BI_ZERO
+  position.tradingVolume = BI_ZERO
+  position.leverage = BI_ZERO
+  position.realizedPnl = BI_ZERO
+  position.unrealizedPnl = BI_ZERO
+  position.fundingPayment = BI_ZERO
+  position.fee = BI_ZERO
+  position.badDebt = BI_ZERO
+  position.liquidationPenalty = BI_ZERO
+  position.totalPnlAmount = BI_ZERO
+  position.blockNumber = BI_ZERO
+  position.timestamp = BI_ZERO
   position.save()
   return position
 }
@@ -47,22 +49,22 @@ export function createAmmPosition(amm: Address, trader: Address): AmmPosition {
   let ammPosition = new AmmPosition(ammPositionId)
   ammPosition.amm = amm
   ammPosition.trader = trader
-  ammPosition.margin = BigInt.fromI32(0)
-  ammPosition.positionSize = BigInt.fromI32(0)
-  ammPosition.openNotional = BigInt.fromI32(0)
-  ammPosition.tradingVolume = BigInt.fromI32(0)
-  ammPosition.leverage = BigInt.fromI32(0)
-  ammPosition.entryPrice = BigInt.fromI32(0)
-  ammPosition.realizedPnl = BigInt.fromI32(0)
-  ammPosition.unrealizedPnl = BigInt.fromI32(0)
-  ammPosition.fundingPayment = BigInt.fromI32(0)
-  ammPosition.fee = BigInt.fromI32(0)
-  ammPosition.badDebt = BigInt.fromI32(0)
-  ammPosition.liquidationPenalty = BigInt.fromI32(0)
-  ammPosition.totalPnlAmount = BigInt.fromI32(0)
+  ammPosition.margin = BI_ZERO
+  ammPosition.positionSize = BI_ZERO
+  ammPosition.openNotional = BI_ZERO
+  ammPosition.tradingVolume = BI_ZERO
+  ammPosition.leverage = BI_ZERO
+  ammPosition.entryPrice = BI_ZERO
+  ammPosition.realizedPnl = BI_ZERO
+  ammPosition.unrealizedPnl = BI_ZERO
+  ammPosition.fundingPayment = BI_ZERO
+  ammPosition.fee = BI_ZERO
+  ammPosition.badDebt = BI_ZERO
+  ammPosition.liquidationPenalty = BI_ZERO
+  ammPosition.totalPnlAmount = BI_ZERO
   ammPosition.position = parsePositionId(trader)
-  ammPosition.blockNumber = BigInt.fromI32(0)
-  ammPosition.timestamp = BigInt.fromI32(0)
+  ammPosition.blockNumber = BI_ZERO
+  ammPosition.timestamp = BI_ZERO
   ammPosition.save()
   return ammPosition
 }
@@ -72,14 +74,14 @@ export function parseAmmPositionId(amm: Address, trader: Address): string {
 }
 
 export function calcNewAmmOpenNotional(ammPosition: AmmPosition, event: PositionChanged): BigInt {
-  let signedOpenNotional = ammPosition.positionSize.ge(BigInt.fromI32(0))
+  let signedOpenNotional = ammPosition.positionSize.ge(BI_ZERO)
     ? ammPosition.openNotional
     : ammPosition.openNotional.neg()
 
   return signedOpenNotional
     .plus(event.params.realizedPnl)
     .plus(
-      (event.params.exchangedPositionSize.ge(BigInt.fromI32(0)))
+      (event.params.exchangedPositionSize.ge(BI_ZERO))
         ? event.params.positionNotional
         : event.params.positionNotional.neg()
     )
@@ -90,4 +92,32 @@ export namespace decimal {
   export function div(a: BigInt, b: BigInt): BigInt {
     return a.times(BigInt.fromI32(10).pow(18)).div(b)
   }
+}
+
+
+export function getAmm(ammAddress: Address): Amm {
+  let amm = Amm.load(parseAmmId(ammAddress))
+  if (!amm) {
+    amm = createAmm(ammAddress)
+  }
+  return amm!
+}
+
+export function createAmm(ammAddress: Address): Amm {
+  const amm = new Amm(parseAmmId(ammAddress))
+  amm.address = ammAddress
+  amm.positionBalance = BI_ZERO
+  amm.openInterestSize = BI_ZERO
+  amm.openInterestNotional = BI_ZERO
+  amm.tradingVolume = BI_ZERO
+  amm.quoteAssetReserve = BI_ZERO
+  amm.baseAssetReserve = BI_ZERO
+  amm.blockNumber = BI_ZERO
+  amm.timestamp = BI_ZERO
+  amm.save()
+  return amm
+}
+
+export function parseAmmId(ammAddress: Address): string {
+  return ammAddress.toHexString()
 }
