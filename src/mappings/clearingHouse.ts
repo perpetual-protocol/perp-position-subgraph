@@ -33,7 +33,7 @@ export function handlePositionChanged(event: PositionChanged): void {
   let newOpenNotional = position.openNotional.minus(ammPosition.openNotional).plus(newAmmOpenNotional)
   let newAmmPositionSize = event.params.positionSizeAfter
   let newAmmOpenInterestSize = amm.openInterestSize.minus(ammPosition.positionSize.abs()).plus(event.params.positionSizeAfter.abs())
-  let ammSpotPrice = amm.quoteAssetReserve.notEqual(BI_ZERO) ? amm.baseAssetReserve.div(amm.quoteAssetReserve) : BI_ZERO
+  let ammSpotPrice = amm.baseAssetReserve.notEqual(BI_ZERO) ? amm.quoteAssetReserve.div(amm.baseAssetReserve) : BI_ZERO
   let newAmmOpenInterestNotional = newAmmOpenInterestSize.times(ammSpotPrice)
 
   // upsert corresponding Position

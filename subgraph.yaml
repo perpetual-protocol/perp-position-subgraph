@@ -22,6 +22,7 @@ dataSources:
         - PositionChangedEvent
         - PositionLiquidatedEvent
         - MarginChangedEvent
+        - Amm
       abis:
         - name: ClearingHouse
           file: ./abis/ClearingHouse.json
@@ -47,6 +48,7 @@ dataSources:
       file: ./src/mappings/amm.ts
       entities:
         - FundingRateUpdatedEvent
+        - Amm
       abis:
         - name: Amm
           file: ./abis/Amm.json
@@ -70,6 +72,7 @@ dataSources:
       file: ./src/mappings/amm.ts
       entities:
         - FundingRateUpdatedEvent
+        - Amm
       abis:
         - name: Amm
           file: ./abis/Amm.json
@@ -93,6 +96,7 @@ dataSources:
       file: ./src/mappings/amm.ts
       entities:
         - FundingRateUpdatedEvent
+        - Amm
       abis:
         - name: Amm
           file: ./abis/Amm.json
@@ -116,6 +120,7 @@ dataSources:
       file: ./src/mappings/amm.ts
       entities:
         - FundingRateUpdatedEvent
+        - Amm
       abis:
         - name: Amm
           file: ./abis/Amm.json
@@ -139,6 +144,7 @@ dataSources:
       file: ./src/mappings/amm.ts
       entities:
         - FundingRateUpdatedEvent
+        - Amm
       abis:
         - name: Amm
           file: ./abis/Amm.json
@@ -162,6 +168,7 @@ dataSources:
       file: ./src/mappings/amm.ts
       entities:
         - FundingRateUpdatedEvent
+        - Amm
       abis:
         - name: Amm
           file: ./abis/Amm.json
@@ -185,6 +192,7 @@ dataSources:
       file: ./src/mappings/amm.ts
       entities:
         - FundingRateUpdatedEvent
+        - Amm
       abis:
         - name: Amm
           file: ./abis/Amm.json

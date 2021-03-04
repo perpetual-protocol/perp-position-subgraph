@@ -24,7 +24,7 @@ export function handleReserveSnapshotted(event: ReserveSnapshotted): void {
   const { params: { baseAssetReserve, quoteAssetReserve, timestamp }, block: { number: blockNumber }} = event
   amm.baseAssetReserve = baseAssetReserve
   amm.quoteAssetReserve = quoteAssetReserve
-  amm.openInterestNotional = amm.openInterestSize.times(baseAssetReserve.div(quoteAssetReserve))
+  amm.openInterestNotional = amm.openInterestSize.times(quoteAssetReserve.div(baseAssetReserve))
   amm.blockNumber = blockNumber
   amm.timestamp = timestamp
   amm.save()
