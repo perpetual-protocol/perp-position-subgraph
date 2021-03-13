@@ -6,8 +6,7 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "npm run codegen && graph build",
-    "auth": "graph auth https://api.thegraph.com/deploy/ ${THE_GRAPH_ACCESS_TOKEN}",
-    "deploy": "npm run build && graph deploy perpetual-protocol/perp-position-subgraph --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/"
+    "deploy": "npm run build && graph deploy perpetual-protocol/perp-position-subgraph --access-token ${THE_GRAPH_ACCESS_TOKEN} --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/"
   },
   "keywords": [],
   "author": "",
