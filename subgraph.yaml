@@ -369,3 +369,27 @@ dataSources:
           handler: handleFundingRateUpdated
         - event: ReserveSnapshotted(uint256,uint256,uint256)
           handler: handleReserveSnapshotted
+
+  - kind: ethereum/contract
+    name: AmmCREAMUSDC
+    network: xdai
+    source:
+      address: "0x7B479a0a816ca33F8EB5A3312d1705a34d2d4C82"
+      abi: Amm
+      startBlock: 16098278
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./src/mappings/amm.ts
+      entities:
+        - FundingRateUpdatedEvent
+        - Amm
+      abis:
+        - name: Amm
+          file: ./abis/Amm.json
+      eventHandlers:
+        - event: FundingRateUpdated(int256,uint256)
+          handler: handleFundingRateUpdated
+        - event: ReserveSnapshotted(uint256,uint256,uint256)
+          handler: handleReserveSnapshotted
