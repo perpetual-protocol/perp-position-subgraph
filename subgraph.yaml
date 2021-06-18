@@ -417,3 +417,51 @@ dataSources:
           handler: handleFundingRateUpdated
         - event: ReserveSnapshotted(uint256,uint256,uint256)
           handler: handleReserveSnapshotted
+
+  - kind: ethereum/contract
+    name: AmmALPHAUSDC
+    network: xdai
+    source:
+      address: "0x26789518695b56e16F14008c35Dc1b281Bd5fc0E"
+      abi: Amm
+      startBlock: 16363402
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./src/mappings/amm.ts
+      entities:
+        - FundingRateUpdatedEvent
+        - Amm
+      abis:
+        - name: Amm
+          file: ./abis/Amm.json
+      eventHandlers:
+        - event: FundingRateUpdated(int256,uint256)
+          handler: handleFundingRateUpdated
+        - event: ReserveSnapshotted(uint256,uint256,uint256)
+          handler: handleReserveSnapshotted
+
+  - kind: ethereum/contract
+    name: AmmFTTUSDC
+    network: xdai
+    source:
+      address: "0x838B322610BD99a449091D3bF3FBA60D794909a9"
+      abi: Amm
+      startBlock: 16632879
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./src/mappings/amm.ts
+      entities:
+        - FundingRateUpdatedEvent
+        - Amm
+      abis:
+        - name: Amm
+          file: ./abis/Amm.json
+      eventHandlers:
+        - event: FundingRateUpdated(int256,uint256)
+          handler: handleFundingRateUpdated
+        - event: ReserveSnapshotted(uint256,uint256,uint256)
+          handler: handleReserveSnapshotted
